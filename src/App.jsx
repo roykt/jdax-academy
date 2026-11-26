@@ -89,6 +89,8 @@ import Ssc from "./pages/ssb/sspage";
 import Banking from "./pages/ssb/banking";
 import RRB from "./pages/ssb/rrb";
 import Regulatory from "./pages/ssb/regulartory";
+import SchedulesPage from "./pages/SchedulesPage";
+import UpdatesPage from "./pages/UpdatesPage";
 
 function App() {
   return (
@@ -209,6 +211,8 @@ function App() {
       <Route path="/banking" element={<Banking />} />
       <Route path="/rrb" element={<RRB />} />
       <Route path="/regulatory" element={<Regulatory />} />
+      <Route path="/schedules" element={<SchedulesPage />} />
+      <Route path="/updates" element={<UpdatesPage />} />
     </Routes>
   );
 }
