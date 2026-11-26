@@ -96,9 +96,7 @@ export default function Header() {
 
       {/* Header */}
       <div
-        className={`fixed left-0 w-full z-50 flex justify-center transition-all duration-500 ${
-          isScrolled ? "top-[25px]" : "top-0"
-        }`}
+        className="sticky top-0 left-0 w-full z-50 flex justify-center transition-all duration-500"
       >
         <header
           className={`transition-all duration-500 ease-in-out backdrop-blur-md rounded-none ${
@@ -109,7 +107,7 @@ export default function Header() {
         >
           <div className="flex justify-between items-center px-4 md:px-6">
             {/* Logo and hamburger */}
-            <div className="flex items-center cursor-pointer">
+            <div className="flex min-w-0 items-center cursor-pointer">
               <Menu
                 color={isScrolled ? "#dfe228" : undefined}
                 onClick={() => setMobileMenuOpen(true)}
@@ -122,7 +120,7 @@ export default function Header() {
                   className="h-[50px] w-[100px] object-contain"
                 />
                 <span
-                  className={`text-2xl font-bold ${
+                  className={`text-base sm:text-xl xl:text-2xl leading-tight font-bold ${
                     isScrolled ? "text-yellow-400" : "text-[#0d1117]"
                   } ml-[-1.5rem]`}
                 >
@@ -137,7 +135,7 @@ export default function Header() {
             {/* Login Button */}
             {/* Student Login - Desktop */}
             <button
-              className={`hidden md:flex font-semibold px-4 py-2 rounded-full shadow transition-all duration-300 mr-2 items-center ${
+              className={`hidden xl:flex font-semibold px-4 py-2 rounded-full shadow transition-all duration-300 mr-2 items-center ${
                 isScrolled
                   ? "bg-yellow-400 text-[#0f172a] hover:bg-yellow-500 blink"
                   : "bg-white text-blue-600 hover:bg-gray-100"
@@ -150,7 +148,7 @@ export default function Header() {
 
             {/* Student Login - Mobile Icon */}
             <button
-              className={`md:hidden p-2 rounded-full transition-all duration-300 ${
+              className={`xl:hidden shrink-0 p-2 rounded-full transition-all duration-300 ${
                 isScrolled
                   ? "bg-yellow-400 text-[#0f172a]"
                   : "bg-white text-blue-600"

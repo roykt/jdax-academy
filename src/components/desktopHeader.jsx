@@ -28,7 +28,7 @@ export default function DesktopMenu({ isScrolled }) {
   return (
     <nav
       ref={menuRef}
-      className="hidden md:flex items-center space-x-8 text-lg"
+      className="hidden xl:flex items-center space-x-6 text-lg"
     >
       {/* FIND YOUR COURSE */}
       <MenuButton
