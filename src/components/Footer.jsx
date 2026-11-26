@@ -4,24 +4,24 @@ import { Link } from "react-router-dom";
 import { ChevronUp, Eye, MapPin } from "lucide-react";
 import logo from "../assets/images.png";
 import TotalViews from "./Views/totalViews";
-import axios from "axios";
+import { apiGet } from "../api/client";
 const Footer = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [view, setViews] = useState(0);
 
-  const fetchViews = async () => {
-    try {
-      const response = await axios.get(
-        "https://jdax-server.onrender.com/api/events/realtime-visitors",
-      );
-      setViews(response.data?.totalViews);
-    } catch (error) {
-      console.error("Error fetching views:", error);
-    }
-  };
-
   useEffect(() => {
+    const controller = new AbortController();
+    const fetchViews = async () => {
+      try {
+        const response = await apiGet("/api/events/realtime-visitors", controller.signal);
+        setViews(Number(response.totalViews) || 0);
+      } catch (error) {
+        if (error.name !== "AbortError") console.error("Error fetching views:", error);
+      }
+    };
     fetchViews();
+    const interval = setInterval(fetchViews, 300000);
+    return () => { controller.abort(); clearInterval(interval); };
   }, []);
 
   useEffect(() => {
