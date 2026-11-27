@@ -2,7 +2,7 @@ import React from "react";
 import CourseUpsc from "../../components/courseUpsc";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import UpscCourse from "../../components/upscContent/UpscCourse";
+import UpscCourse from "../../components/upscContent/upscCourse";
 import JdaxExe from "../../components/upscContent/jdaxExe";
 
 const Peadology4 = () => {
