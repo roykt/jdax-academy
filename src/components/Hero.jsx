@@ -26,7 +26,12 @@ const groups = [
 function FeedItem({ image, type, children, time, url }) {
   const isYoutube = type === "YouTube";
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer" className="flex gap-3 py-2 first:pt-0 last:pb-0">
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex gap-3 py-2 first:pt-0 last:pb-0"
+    >
       <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-lg bg-slate-200 sm:h-20 sm:w-32">
         <img src={image} alt="" className="h-full w-full object-cover" />
         <span
@@ -97,16 +102,20 @@ export default function Hero() {
 
   useEffect(() => {
     const controller = new AbortController();
-    getYouTubeUpdates(null, controller.signal).then(({ items }) => {
-      setLatestVideo(items[0] || null);
-      setVideoStatus("ready");
-    }).catch((error) => { if (error.name !== "AbortError") setVideoStatus("error"); });
+    getYouTubeUpdates(null, controller.signal)
+      .then(({ items }) => {
+        setLatestVideo(items[0] || null);
+        setVideoStatus("ready");
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") setVideoStatus("error");
+      });
     return () => controller.abort();
   }, []);
 
   useEffect(() => {
     const controller = new AbortController();
-    apiGet("/api/content-schedules/", controller.signal)
+    apiGet("/api/content-schedules/get-all", controller.signal)
       .then((response) => {
         if (!Array.isArray(response.data))
           throw new Error("Invalid schedule response");
@@ -201,7 +210,28 @@ export default function Hero() {
               <i className="h-1 flex-1 rounded bg-[#ffd221]" />
             </h2>
             <div className="mt-3 divide-y divide-slate-200">
-              {videoStatus === "loading" ? <p className="py-2 text-sm text-slate-500">Loading latest video…</p> : videoStatus === "error" ? <p className="py-2 text-sm text-slate-500">Unable to load the latest video.</p> : latestVideo ? <FeedItem image={latestVideo.image} type="YouTube" time={formatUpdateDate(latestVideo.publishedAt)} url={latestVideo.url}>{latestVideo.title}</FeedItem> : <p className="py-2 text-sm text-slate-500">No videos available.</p>}
+              {videoStatus === "loading" ? (
+                <p className="py-2 text-sm text-slate-500">
+                  Loading latest video…
+                </p>
+              ) : videoStatus === "error" ? (
+                <p className="py-2 text-sm text-slate-500">
+                  Unable to load the latest video.
+                </p>
+              ) : latestVideo ? (
+                <FeedItem
+                  image={latestVideo.image}
+                  type="YouTube"
+                  time={formatUpdateDate(latestVideo.publishedAt)}
+                  url={latestVideo.url}
+                >
+                  {latestVideo.title}
+                </FeedItem>
+              ) : (
+                <p className="py-2 text-sm text-slate-500">
+                  No videos available.
+                </p>
+              )}
             </div>
             <Link
               to="/updates"
