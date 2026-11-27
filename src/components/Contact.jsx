@@ -32,7 +32,7 @@ export default function ContactUs() {
     try {
       // Replace with your actual API endpoint
       await axios.post(
-        "https://jdax-server.onrender.com/api/contacts/form",
+        "https://jdax-server-sjvs.onrender.com/api/contacts/form",
         payload,
       );
 
