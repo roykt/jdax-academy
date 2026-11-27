@@ -24,7 +24,7 @@ import CallToAction from "./pages/calltoaction";
 import CourseFinder from "./pages/Call/courseFinder";
 import CareerFinder from "./pages/Call/careerFinder";
 import CareerPage from "./pages/careerpage/careerePage";
-import UpscCourse from "./components/upscContent/UpscCourse";
+import UpscCourse from "./components/upscContent/upscCourse";
 import Peadology from "./components/upscContent/peadalogy";
 import CoursePage from "./pages/civilPage/coursePage";
 import Peadology1 from "./pages/peadology/peadology1";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import UpscNew from "./upscContent/upscNew";
-import UpscCourse from "./upscContent/UpscCourse";
+import UpscCourse from "./upscContent/upscCourse";
 import Peadology from "./upscContent/peadalogy";
 import PeadalogyMain from "./upscContent/peadalogyMain";
 
