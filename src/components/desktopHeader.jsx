@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 
@@ -131,7 +131,7 @@ export default function DesktopMenu({ isScrolled }) {
                   onEnter={() => setOpenLevel3("syllabus")}
                 >
                   {openLevel3 === "syllabus" && (
-                    <SideDropdown wide>
+                    <SideDropdown inline>
                       <div className="font-semibold px-3 py-1">
                         Prelims Syllabus
                       </div>
@@ -161,7 +161,7 @@ export default function DesktopMenu({ isScrolled }) {
                   onEnter={() => setOpenLevel3("pyq")}
                 >
                   {openLevel3 === "pyq" && (
-                    <SideDropdown wide>
+                    <SideDropdown inline>
                       <div className="font-semibold px-3 py-1">Prelims</div>
                       <MenuLink to="/resources/pqy-prelims">GS Papers</MenuLink>
                       <MenuLink to="/resource/csat-prelims">
@@ -248,11 +248,23 @@ const MenuButton = ({ label, open, onEnter, color, children }) => (
   </div>
 );
 
-const Dropdown = ({ children }) => (
-  <div className="absolute left-0 mt-3 bg-white rounded-xl shadow-xl p-4 min-w-[260px] space-y-1 z-50">
-    {children}
-  </div>
-);
+const Dropdown = ({ children }) => {
+  const ref = useRef(null);
+  useLayoutEffect(() => {
+    const position = () => {
+      const node = ref.current;
+      if (!node) return;
+      node.style.left = "0px";
+      const rect = node.getBoundingClientRect();
+      const overflow = rect.right - window.innerWidth + 12;
+      if (overflow > 0) node.style.left = `${-overflow}px`;
+    };
+    position();
+    window.addEventListener("resize", position);
+    return () => window.removeEventListener("resize", position);
+  }, []);
+  return <div ref={ref} className="absolute left-0 mt-3 bg-white rounded-xl shadow-xl p-4 min-w-[260px] space-y-1 z-50">{children}</div>;
+};
 
 const SideItem = ({ label, onEnter, children }) => (
   <div className="relative" onMouseEnter={onEnter}>
@@ -263,15 +275,36 @@ const SideItem = ({ label, onEnter, children }) => (
   </div>
 );
 
-const SideDropdown = ({ children, wide }) => (
-  <div
-    className={`absolute left-full top-0 ml-2 bg-white rounded-xl shadow-xl p-4 space-y-1 z-50 ${
-      wide ? "min-w-[320px]" : "min-w-[260px]"
-    }`}
-  >
-    {children}
-  </div>
-);
+const SideDropdown = ({ children, wide, inline }) => {
+  const ref = useRef(null);
+  useLayoutEffect(() => {
+    if (inline) return;
+    const position = () => {
+      const node = ref.current;
+      if (!node) return;
+      node.style.left = "100%";
+      node.style.right = "auto";
+      node.style.top = "0px";
+      let rect = node.getBoundingClientRect();
+      const parentLeft = node.parentElement.getBoundingClientRect().left;
+      if (rect.right > window.innerWidth - 12 && parentLeft - node.offsetWidth >= 12) {
+        node.style.left = "auto";
+        node.style.right = "100%";
+        rect = node.getBoundingClientRect();
+      } else if (rect.right > window.innerWidth - 12) {
+        node.style.left = `${Math.max(12, window.innerWidth - node.offsetWidth - 12) - parentLeft}px`;
+        rect = node.getBoundingClientRect();
+      }
+      const verticalShift = Math.min(0, window.innerHeight - 12 - rect.bottom);
+      node.style.top = `${Math.max(verticalShift, 12 - rect.top)}px`;
+    };
+    position();
+    window.addEventListener("resize", position);
+    return () => window.removeEventListener("resize", position);
+  }, [inline, children]);
+  if (inline) return <div className="mt-1 mb-2 ml-3 border-l-2 border-violet-200 pl-3 text-base space-y-1">{children}</div>;
+  return <div ref={ref} className={`absolute left-full top-0 bg-white rounded-xl shadow-xl p-3 space-y-1 z-50 ${wide ? "w-[320px] max-h-[calc(100vh-6rem)] overflow-y-auto" : "w-[260px]"}`}>{children}</div>;
+};
 
 const MenuLink = ({ to, children }) => (
   <Link
