@@ -95,9 +95,7 @@ export default function Header() {
       )}
 
       {/* Header */}
-      <div
-        className="sticky top-0 left-0 w-full z-50 flex justify-center transition-all duration-500"
-      >
+      <div className="sticky top-0 left-0 w-full z-50 flex justify-center transition-all duration-500">
         <header
           className={`transition-all duration-500 ease-in-out backdrop-blur-md rounded-none ${
             isScrolled
@@ -140,7 +138,9 @@ export default function Header() {
                   ? "bg-yellow-400 text-[#0f172a] hover:bg-yellow-500 blink"
                   : "bg-white text-blue-600 hover:bg-gray-100"
               }`}
-              onClick={() => window.open("https://jdax.co.in", "_blank")}
+              onClick={() =>
+                window.open("https://www.jdax.co.in/#/directlogin", "_blank")
+              }
             >
               <User className="w-5 h-5 mr-2" />
               Aspirant Login
@@ -153,7 +153,9 @@ export default function Header() {
                   ? "bg-yellow-400 text-[#0f172a]"
                   : "bg-white text-blue-600"
               }`}
-              onClick={() => window.open("https://jdax.co.in", "_blank")}
+              onClick={() =>
+                window.open("https://www.jdax.co.in/#/directlogin", "_blank")
+              }
               aria-label="Student Login"
             >
               <User className="w-6 h-6" />
